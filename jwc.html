@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>958班 - 我们的班级</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 横幅区域 */
+        .banner {
+            background: linear-gradient(rgba(30, 87, 153, 0.8), rgba(32, 124, 202, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .banner h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .banner p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* 班级简介 */
+        .intro {
+            background-color: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1e5799;
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #207cca;
+        }
+        
+        .intro-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .intro-text {
+            flex: 2;
+        }
+        
+        .intro-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .intro-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* 班级成员 */
+        .members {
+            margin-bottom: 3rem;
+        }
+        
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .member-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .member-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .member-info {
+            padding: 1.5rem;
+        }
+        
+        .member-info h3 {
+            margin-bottom: 0.5rem;
+            color: #1e5799;
+        }
+        
+        .member-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* 班级相册 */
+        .gallery {
+            margin-bottom: 3rem;
+        }
+        
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .photo-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* 留言板 */
+        .message-board {
+            background-color: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        .message-form {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .messages {
+            border-top: 1px solid #eee;
+            padding-top: 2rem;
+        }
+        
+        .message {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .message-author {
+            font-weight: bold;
+            color: #1e5799;
+        }
+        
+        .message-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            padding: 3rem 0 1.5rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .banner h1 {
+                font-size: 2.2rem;
+            }
+            
+            .intro-content {
+                flex-direction: column;
+            }
+            
+            .member-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i>🎓</i>
+                    <span>958班</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#intro">班级简介</a></li>
+                    <li><a href="#members">班级成员</a></li>
+                    <li><a href="#gallery">班级相册</a></li>
+                    <li><a href="#messages">留言板</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 横幅区域 -->
+    <section class="banner">
+        <div class="container">
+            <h1>958班 - 我们的大家庭</h1>
+            <p>团结、奋进、求实、创新 - 这是我们958班的精神风貌</p>
+        </div>
+    </section>
+
+    <!-- 班级简介 -->
+    <section class="container intro" id="intro">
+        <h2 class="section-title">班级简介</h2>
+        <div class="intro-content">
+            <div class="intro-text">
+                <p>958班是一个充满活力与创造力的集体，成立于2020年9月。我们班共有45名同学，来自全国各地，组成了这个温馨的大家庭。</p>
+                <p>在过去的几年里，我们班在各项活动中表现出色，多次获得校级荣誉。同学们不仅在学业上互相帮助，共同进步，在课外活动中也展现出团结协作的精神。</p>
+                <p>我们的班训是"团结、奋进、求实、创新"，这八个字激励着我们不断追求卓越，勇于挑战自我。在班主任李老师的带领下，我们班形成了良好的学习氛围和积极向上的班级文化。</p>
+                <p>未来，958班将继续努力，创造更加辉煌的成绩！</p>
+            </div>
+            <div class="intro-image">
+                <img src="https://images.unsplash.com/photo-1524179091875-4c7c0d71df99?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="班级合影">
+            </div>
+        </div>
+    </section>
+
+    <!-- 班级成员 -->
+    <section class="container members" id="members">
+        <h2 class="section-title">班级成员</h2>
+        <div class="member-grid">
+            <!-- 成员卡片1 -->
+            <div class="member-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="张三" class="member-img">
+                <div class="member-info">
+                    <h3>张三</h3>
+                    <p>班长</p>
+                    <p>学习认真，工作负责，是老师的得力助手。</p>
+                </div>
+            </div>
+            
+            <!-- 成员卡片2 -->
+            <div class="member-card">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616c0763205?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="李四" class="member-img">
+                <div class="member-info">
+                    <h3>李四</h3>
+                    <p>学习委员</p>
+                    <p>成绩优异，乐于助人，经常组织学习小组。</p>
+                </div>
+            </div>
+            
+            <!-- 成员卡片3 -->
+            <div class="member-card">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="王五" class="member-img">
+                <div class="member-info">
+                    <h3>王五</h3>
+                    <p>文艺委员</p>
+                    <p>多才多艺，组织班级文艺活动。</p>
+                </div>
+            </div>
+            
+            <!-- 成员卡片4 -->
+            <div class="member-card">
+                <img src="https://images.unsplash.com/photo-1534751516644-99e18d1a75e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="赵六" class="member-img">
+                <div class="member-info">
+                    <h3>赵六</h3>
+                    <p>体育委员</p>
+                    <p>运动健将，带领班级在运动会上取得佳绩。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 班级相册 -->
+    <section class="container gallery" id="gallery">
+        <h2 class="section-title">班级相册</h2>
+        <div class="photo-grid">
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="班级活动">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="学习场景">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="运动会">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="课堂学习">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1524179091875-4c7c0d71df99?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="班级合影">
+            </div>
+            <div class="photo-item">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="课外活动">
+            </div>
+        </div>
+    </section>
+
+    <!-- 留言板 -->
+    <section class="container message-board" id="messages">
+        <h2 class="section-title">留言板</h2>
+        <div class="message-form">
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" id="name" class="form-control" placeholder="请输入您的姓名">
+            </div>
+            <div class="form-group">
+                <label for="message">留言内容</label>
+                <textarea id="message" class="form-control" placeholder="请输入您的留言..."></textarea>
+            </div>
+            <button class="btn" onclick="addMessage()">提交留言</button>
+        </div>
+        
+        <div class="messages" id="messageList">
+            <!-- 留言示例 -->
+            <div class="message">
+                <div class="message-header">
+                    <span class="message-author">班主任李老师</span>
+                    <span class="message-date">2023-10-15</span>
+                </div>
+                <p>958班的同学们，你们是最棒的！继续努力，创造更美好的未来！</p>
+            </div>
+            
+            <div class="message">
+                <div class="message-header">
+                    <span class="message-author">校友王明</span>
+                    <span class="message-date">2023-09-28</span>
+                </div>
+                <p>看到958班这么优秀，作为校友感到非常自豪！希望学弟学妹们继续发扬优良传统。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于958班</h3>
+                    <p>958班是一个团结奋进的集体，成立于2020年9月。我们秉持"团结、奋进、求实、创新"的班训，不断追求卓越。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <a href="#intro">班级简介</a>
+                    <a href="#members">班级成员</a>
+                    <a href="#gallery">班级相册</a>
+                    <a href="#messages">留言板</a>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p>邮箱: class958@example.com</p>
+                    <p>电话: 123-4567-8900</p>
+                    <p>地址: 某某学校958班</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 958班 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的留言功能
+        function addMessage() {
+            const nameInput = document.getElementById('name');
+            const messageInput = document.getElementById('message');
+            const messageList = document.getElementById('messageList');
+            
+            if (nameInput.value.trim() === '' || messageInput.value.trim() === '') {
+                alert('请填写姓名和留言内容！');
+                return;
+            }
+            
+            // 创建新的留言元素
+            const newMessage = document.createElement('div');
+            newMessage.className = 'message';
+            
+            const today = new Date();
+            const dateString = today.getFullYear() + '-' + 
+                              (today.getMonth() + 1).toString().padStart(2, '0') + '-' + 
+                              today.getDate().toString().padStart(2, '0');
+            
+            newMessage.innerHTML = `
+                <div class="message-header">
+                    <span class="message-author">${nameInput.value}</span>
+                    <span class="message-date">${dateString}</span>
+                </div>
+                <p>${messageInput.value}</p>
+            `;
+            
+            // 将新留言添加到留言列表顶部
+            messageList.insertBefore(newMessage, messageList.firstChild);
+            
+            // 清空输入框
+            nameInput.value = '';
+            messageInput.value = '';
+            
+            alert('留言提交成功！');
+        }
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
