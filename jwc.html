@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>958班 - 我们的班级</title>
+    <title>教务管理系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Microsoft YaHei', sans-serif;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #1abc9c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
         }
         
         body {
@@ -19,39 +31,68 @@
         }
         
         .container {
-            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 20px;
         }
         
-        /* 导航栏样式 */
+        /* 头部样式 */
         header {
-            background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
-        nav {
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
             display: flex;
             align-items: center;
+            gap: 15px;
         }
         
         .logo i {
-            margin-right: 10px;
-            font-size: 2rem;
+            font-size: 2.2rem;
+            color: var(--accent);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* 导航样式 */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .nav-links {
@@ -60,557 +101,482 @@
         }
         
         .nav-links li {
-            margin-left: 2rem;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-        
-        .nav-links a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* 横幅区域 */
-        .banner {
-            background: linear-gradient(rgba(30, 87, 153, 0.8), rgba(32, 124, 202, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 6rem 0;
-            margin-bottom: 3rem;
-        }
-        
-        .banner h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .banner p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* 班级简介 */
-        .intro {
-            background-color: white;
-            padding: 3rem 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 3rem;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #1e5799;
-            font-size: 2rem;
+            padding: 1.2rem 1.5rem;
             position: relative;
-            padding-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background-color: #207cca;
+        .nav-links li:hover {
+            background-color: #f8f9fa;
+            color: var(--secondary);
         }
         
-        .intro-content {
+        .nav-links li.active {
+            color: var(--secondary);
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .search-box {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            background: #f8f9fa;
+            border-radius: 30px;
+            padding: 8px 15px;
+            width: 250px;
         }
         
-        .intro-text {
-            flex: 2;
-        }
-        
-        .intro-image {
-            flex: 1;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .intro-image img {
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
             width: 100%;
-            height: auto;
-            display: block;
+            padding: 5px 10px;
         }
         
-        /* 班级成员 */
-        .members {
-            margin-bottom: 3rem;
+        /* 主要内容区 */
+        .main-content {
+            padding: 2rem 0;
         }
         
-        .member-grid {
+        .dashboard-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
         
-        .member-card {
-            background-color: white;
+        .card {
+            background: white;
             border-radius: 10px;
-            overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .member-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .member-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .member-info {
-            padding: 1.5rem;
-        }
-        
-        .member-info h3 {
-            margin-bottom: 0.5rem;
-            color: #1e5799;
-        }
-        
-        .member-info p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        /* 班级相册 */
-        .gallery {
-            margin-bottom: 3rem;
-        }
-        
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        
-        .photo-item {
-            border-radius: 8px;
-            overflow: hidden;
-            height: 200px;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .photo-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        /* 留言板 */
-        .message-board {
-            background-color: white;
-            padding: 3rem 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 3rem;
-        }
-        
-        .message-form {
-            margin-bottom: 2rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .messages {
-            border-top: 1px solid #eee;
-            padding-top: 2rem;
-        }
-        
-        .message {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        
-        .message-header {
+        .card-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
+            align-items: center;
+            margin-bottom: 15px;
         }
         
-        .message-author {
-            font-weight: bold;
-            color: #1e5799;
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
         }
         
-        .message-date {
-            color: #888;
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .teaching {
+            background-color: var(--secondary);
+        }
+        
+        .student {
+            background-color: var(--accent);
+        }
+        
+        .major {
+            background-color: var(--warning);
+        }
+        
+        .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .card-desc {
+            color: #7f8c8d;
             font-size: 0.9rem;
         }
         
-        /* 页脚 */
-        footer {
-            background-color: #1a1a1a;
-            color: #ccc;
-            padding: 3rem 0 1.5rem;
+        /* 模块区域 */
+        .modules-section {
+            margin-top: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--secondary);
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .module-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .module-content {
+            padding: 1.5rem;
+        }
+        
+        .module-features {
+            list-style: none;
+        }
+        
+        .module-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .module-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .module-features i {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        .module-action {
+            display: block;
             text-align: center;
+            padding: 12px;
+            background-color: var(--light);
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .module-action:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        /* 底部样式 */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
         }
         
         .footer-content {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
+            gap: 30px;
         }
         
         .footer-section {
             flex: 1;
             min-width: 250px;
-            margin-bottom: 1.5rem;
-            padding: 0 1rem;
         }
         
         .footer-section h3 {
-            color: white;
-            margin-bottom: 1rem;
             font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
         
-        .footer-section p, .footer-section a {
-            color: #aaa;
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
             text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: block;
+            transition: color 0.3s ease;
         }
         
-        .footer-section a:hover {
+        .footer-links a:hover {
             color: white;
         }
         
         .copyright {
-            border-top: 1px solid #333;
-            padding-top: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #34495e;
+            color: #95a5a6;
             font-size: 0.9rem;
-            color: #888;
         }
         
         /* 响应式设计 */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .banner h1 {
-                font-size: 2.2rem;
-            }
-            
-            .intro-content {
+            .header-content {
                 flex-direction: column;
+                gap: 15px;
             }
             
-            .member-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
             }
             
-            .photo-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            .nav-links {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- 头部 -->
     <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i>🎓</i>
-                    <span>958班</span>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#intro">班级简介</a></li>
-                    <li><a href="#members">班级成员</a></li>
-                    <li><a href="#gallery">班级相册</a></li>
-                    <li><a href="#messages">留言板</a></li>
-                </ul>
-            </nav>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>教务管理系统</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">张</div>
+                <span>张老师，您好！</span>
+            </div>
         </div>
     </header>
-
-    <!-- 横幅区域 -->
-    <section class="banner">
-        <div class="container">
-            <h1>958班 - 我们的大家庭</h1>
-            <p>团结、奋进、求实、创新 - 这是我们958班的精神风貌</p>
-        </div>
-    </section>
-
-    <!-- 班级简介 -->
-    <section class="container intro" id="intro">
-        <h2 class="section-title">班级简介</h2>
-        <div class="intro-content">
-            <div class="intro-text">
-                <p>958班是一个充满活力与创造力的集体，成立于2020年9月。我们班共有45名同学，来自全国各地，组成了这个温馨的大家庭。</p>
-                <p>在过去的几年里，我们班在各项活动中表现出色，多次获得校级荣誉。同学们不仅在学业上互相帮助，共同进步，在课外活动中也展现出团结协作的精神。</p>
-                <p>我们的班训是"团结、奋进、求实、创新"，这八个字激励着我们不断追求卓越，勇于挑战自我。在班主任李老师的带领下，我们班形成了良好的学习氛围和积极向上的班级文化。</p>
-                <p>未来，958班将继续努力，创造更加辉煌的成绩！</p>
-            </div>
-            <div class="intro-image">
-                <img src="https://images.unsplash.com/photo-1524179091875-4c7c0d71df99?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="班级合影">
+    
+    <!-- 导航 -->
+    <nav>
+        <div class="container nav-container">
+            <ul class="nav-links">
+                <li class="active">首页</li>
+                <li>日常教学管理</li>
+                <li>学籍管理</li>
+                <li>专业建设</li>
+                <li>系统设置</li>
+            </ul>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索功能、文档或问题...">
             </div>
         </div>
-    </section>
-
-    <!-- 班级成员 -->
-    <section class="container members" id="members">
-        <h2 class="section-title">班级成员</h2>
-        <div class="member-grid">
-            <!-- 成员卡片1 -->
-            <div class="member-card">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="张三" class="member-img">
-                <div class="member-info">
-                    <h3>张三</h3>
-                    <p>班长</p>
-                    <p>学习认真，工作负责，是老师的得力助手。</p>
+    </nav>
+    
+    <!-- 主要内容区 -->
+    <main class="container main-content">
+        <!-- 数据概览卡片 -->
+        <div class="dashboard-cards">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">日常教学管理</div>
+                    <div class="card-icon teaching">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
                 </div>
+                <div class="card-value">128</div>
+                <div class="card-desc">本学期开课数量</div>
             </div>
             
-            <!-- 成员卡片2 -->
-            <div class="member-card">
-                <img src="https://images.unsplash.com/photo-1494790108755-2616c0763205?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="李四" class="member-img">
-                <div class="member-info">
-                    <h3>李四</h3>
-                    <p>学习委员</p>
-                    <p>成绩优异，乐于助人，经常组织学习小组。</p>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">学籍管理</div>
+                    <div class="card-icon student">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
                 </div>
+                <div class="card-value">3,542</div>
+                <div class="card-desc">在校学生总数</div>
             </div>
             
-            <!-- 成员卡片3 -->
-            <div class="member-card">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="王五" class="member-img">
-                <div class="member-info">
-                    <h3>王五</h3>
-                    <p>文艺委员</p>
-                    <p>多才多艺，组织班级文艺活动。</p>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">专业建设</div>
+                    <div class="card-icon major">
+                        <i class="fas fa-book"></i>
+                    </div>
                 </div>
+                <div class="card-value">24</div>
+                <div class="card-desc">现有专业数量</div>
             </div>
             
-            <!-- 成员卡片4 -->
-            <div class="member-card">
-                <img src="https://images.unsplash.com/photo-1534751516644-99e18d1a75e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="赵六" class="member-img">
-                <div class="member-info">
-                    <h3>赵六</h3>
-                    <p>体育委员</p>
-                    <p>运动健将，带领班级在运动会上取得佳绩。</p>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">待办事项</div>
+                    <div class="card-icon" style="background-color: var(--danger);">
+                        <i class="fas fa-tasks"></i>
+                    </div>
                 </div>
+                <div class="card-value">12</div>
+                <div class="card-desc">需要处理的申请</div>
             </div>
-        </div>
-    </section>
-
-    <!-- 班级相册 -->
-    <section class="container gallery" id="gallery">
-        <h2 class="section-title">班级相册</h2>
-        <div class="photo-grid">
-            <div class="photo-item">
-                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="班级活动">
-            </div>
-            <div class="photo-item">
-                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="学习场景">
-            </div>
-            <div class="photo-item">
-                <img src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="运动会">
-            </div>
-            <div class="photo-item">
-                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="课堂学习">
-            </div>
-            <div class="photo-item">
-                <img src="https://images.unsplash.com/photo-1524179091875-4c7c0d71df99?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="班级合影">
-            </div>
-            <div class="photo-item">
-                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="课外活动">
-            </div>
-        </div>
-    </section>
-
-    <!-- 留言板 -->
-    <section class="container message-board" id="messages">
-        <h2 class="section-title">留言板</h2>
-        <div class="message-form">
-            <div class="form-group">
-                <label for="name">姓名</label>
-                <input type="text" id="name" class="form-control" placeholder="请输入您的姓名">
-            </div>
-            <div class="form-group">
-                <label for="message">留言内容</label>
-                <textarea id="message" class="form-control" placeholder="请输入您的留言..."></textarea>
-            </div>
-            <button class="btn" onclick="addMessage()">提交留言</button>
         </div>
         
-        <div class="messages" id="messageList">
-            <!-- 留言示例 -->
-            <div class="message">
-                <div class="message-header">
-                    <span class="message-author">班主任李老师</span>
-                    <span class="message-date">2023-10-15</span>
-                </div>
-                <p>958班的同学们，你们是最棒的！继续努力，创造更美好的未来！</p>
-            </div>
+        <!-- 功能模块区域 -->
+        <div class="modules-section">
+            <h2 class="section-title"><i class="fas fa-th-large"></i> 核心功能模块</h2>
             
-            <div class="message">
-                <div class="message-header">
-                    <span class="message-author">校友王明</span>
-                    <span class="message-date">2023-09-28</span>
+            <div class="modules-grid">
+                <!-- 日常教学管理模块 -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="module-title">日常教学管理</div>
+                    </div>
+                    <div class="module-content">
+                        <ul class="module-features">
+                            <li><i class="fas fa-check-circle"></i> 课程安排与调整</li>
+                            <li><i class="fas fa-check-circle"></i> 教师授课管理</li>
+                            <li><i class="fas fa-check-circle"></i> 教学计划制定</li>
+                            <li><i class="fas fa-check-circle"></i> 教学质量监控</li>
+                            <li><i class="fas fa-check-circle"></i> 考试安排管理</li>
+                            <li><i class="fas fa-check-circle"></i> 教学资源管理</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="module-action">进入模块</a>
                 </div>
-                <p>看到958班这么优秀，作为校友感到非常自豪！希望学弟学妹们继续发扬优良传统。</p>
+                
+                <!-- 学籍管理模块 -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="module-title">学籍管理</div>
+                    </div>
+                    <div class="module-content">
+                        <ul class="module-features">
+                            <li><i class="fas fa-check-circle"></i> 学生信息管理</li>
+                            <li><i class="fas fa-check-circle"></i> 入学与注册管理</li>
+                            <li><i class="fas fa-check-circle"></i> 学籍异动处理</li>
+                            <li><i class="fas fa-check-circle"></i> 成绩管理与查询</li>
+                            <li><i class="fas fa-check-circle"></i> 毕业资格审核</li>
+                            <li><i class="fas fa-check-circle"></i> 学籍档案管理</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="module-action">进入模块</a>
+                </div>
+                
+                <!-- 专业建设模块 -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="module-title">专业建设</div>
+                    </div>
+                    <div class="module-content">
+                        <ul class="module-features">
+                            <li><i class="fas fa-check-circle"></i> 专业设置与调整</li>
+                            <li><i class="fas fa-check-circle"></i> 培养方案制定</li>
+                            <li><i class="fas fa-check-circle"></i> 课程体系建设</li>
+                            <li><i class="fas fa-check-circle"></i> 教学团队建设</li>
+                            <li><i class="fas fa-check-circle"></i> 专业评估与认证</li>
+                            <li><i class="fas fa-check-circle"></i> 专业发展规划</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="module-action">进入模块</a>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- 页脚 -->
+    </main>
+    
+    <!-- 底部 -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>关于958班</h3>
-                    <p>958班是一个团结奋进的集体，成立于2020年9月。我们秉持"团结、奋进、求实、创新"的班训，不断追求卓越。</p>
-                </div>
-                <div class="footer-section">
-                    <h3>快速链接</h3>
-                    <a href="#intro">班级简介</a>
-                    <a href="#members">班级成员</a>
-                    <a href="#gallery">班级相册</a>
-                    <a href="#messages">留言板</a>
-                </div>
-                <div class="footer-section">
-                    <h3>联系我们</h3>
-                    <p>邮箱: class958@example.com</p>
-                    <p>电话: 123-4567-8900</p>
-                    <p>地址: 某某学校958班</p>
-                </div>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>教务管理系统致力于为高校提供全面、高效、智能的教务管理解决方案，提升教学管理效率与质量。</p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 958班 版权所有</p>
+            
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="#">系统首页</a></li>
+                    <li><a href="#">日常教学管理</a></li>
+                    <li><a href="#">学籍管理</a></li>
+                    <li><a href="#">专业建设</a></li>
+                    <li><a href="#">帮助中心</a></li>
+                </ul>
             </div>
+            
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 北京市海淀区学院路XX号</li>
+                    <li><i class="fas fa-phone"></i> 010-12345678</li>
+                    <li><i class="fas fa-envelope"></i> contact@eduadmin.com</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 教务管理系统 版权所有</p>
         </div>
     </footer>
-
-    <script>
-        // 简单的留言功能
-        function addMessage() {
-            const nameInput = document.getElementById('name');
-            const messageInput = document.getElementById('message');
-            const messageList = document.getElementById('messageList');
-            
-            if (nameInput.value.trim() === '' || messageInput.value.trim() === '') {
-                alert('请填写姓名和留言内容！');
-                return;
-            }
-            
-            // 创建新的留言元素
-            const newMessage = document.createElement('div');
-            newMessage.className = 'message';
-            
-            const today = new Date();
-            const dateString = today.getFullYear() + '-' + 
-                              (today.getMonth() + 1).toString().padStart(2, '0') + '-' + 
-                              today.getDate().toString().padStart(2, '0');
-            
-            newMessage.innerHTML = `
-                <div class="message-header">
-                    <span class="message-author">${nameInput.value}</span>
-                    <span class="message-date">${dateString}</span>
-                </div>
-                <p>${messageInput.value}</p>
-            `;
-            
-            // 将新留言添加到留言列表顶部
-            messageList.insertBefore(newMessage, messageList.firstChild);
-            
-            // 清空输入框
-            nameInput.value = '';
-            messageInput.value = '';
-            
-            alert('留言提交成功！');
-        }
-        
-        // 平滑滚动到锚点
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
