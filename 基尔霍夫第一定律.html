@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基尔霍夫第一定律测试题</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        .option label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        .correct {
+            border-left: 5px solid #2ecc71;
+        }
+        .incorrect {
+            border-left: 5px solid #e74c3c;
+        }
+        .score {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        .show-explanation {
+            background: none;
+            border: none;
+            color: #3498db;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 5px;
+        }
+        .reset-btn {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reset-btn:hover {
+            background-color: #7f8c8d;
+        }
+        .circuit-diagram {
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .node {
+            width: 100px;
+            height: 100px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto;
+            border: 2px solid #333;
+        }
+        .wire {
+            position: absolute;
+            background: #333;
+        }
+        .current-label {
+            position: absolute;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .wire-horizontal {
+            width: 80px;
+            height: 2px;
+        }
+        .wire-vertical {
+            width: 2px;
+            height: 80px;
+        }
+        .diagram-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .diagram {
+            text-align: center;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>基尔霍夫第一定律测试题</h1>
+        
+        <form id="quiz-form">
+            <!-- 问题1 -->
+            <div class="question" id="q1">
+                <h3>1. 关于基尔霍夫第一定律（KCL），下列哪项描述是正确的？</h3>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q1" value="A">
+                            A. 它描述了回路中电压降的代数和为零。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q1" value="B">
+                            B. 它描述了电路中任意节点的电流代数和为零。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q1" value="C">
+                            C. 它描述了电阻两端的电压与电流成正比。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q1" value="D">
+                            D. 它描述了电源电动势等于内阻压降与外阻压降之和。
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 基尔霍夫第一定律（KCL）指出，在集总参数电路中，任何时刻，流入任一节点的电流之和等于流出该节点的电流之和，或者说电流的代数和为零。A和D描述的是基尔霍夫第二定律（KVL），C描述的是欧姆定律。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题2 -->
+            <div class="question" id="q2">
+                <h3>2. 对于电路中的一个节点，有5A和3A的电流流入，6A的电流流出。那么另一个流出该节点的电流大小是多少？</h3>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q2" value="A">
+                            A. 2A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q2" value="B">
+                            B. 4A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q2" value="C">
+                            C. 8A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q2" value="D">
+                            D. 14A
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 根据KCL，流入节点的电流之和等于流出节点的电流之和。流入：5A + 3A = 8A。流出：6A + I = 8A。因此，I = 8A - 6A = 2A。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题3 -->
+            <div class="question" id="q3">
+                <h3>3. 根据下图中给出的电流，电流I的值应为多少？</h3>
+                <div class="circuit-diagram">
+                    <div class="diagram">
+                        <div style="position: relative; width: 200px; height: 150px; margin: 0 auto;">
+                            <!-- 节点 -->
+                            <div style="position: absolute; left: 80px; top: 50px; width: 40px; height: 40px; background: #ccc; border-radius: 50%; border: 2px solid #333;"></div>
+                            <!-- 导线和电流 -->
+                            <div style="position: absolute; left: 0; top: 60px; width: 80px; height: 2px; background: #333;"></div>
+                            <div style="position: absolute; left: 120px; top: 60px; width: 80px; height: 2px; background: #333;"></div>
+                            <div style="position: absolute; left: 90px; top: 0; width: 2px; height: 50px; background: #333;"></div>
+                            <div style="position: absolute; left: 90px; top: 90px; width: 2px; height: 60px; background: #333;"></div>
+                            <!-- 电流标签 -->
+                            <div style="position: absolute; left: 30px; top: 45px; color: #e74c3c; font-weight: bold;">2A →</div>
+                            <div style="position: absolute; left: 90px; top: 20px; color: #e74c3c; font-weight: bold;">3A ↓</div>
+                            <div style="position: absolute; left: 140px; top: 45px; color: #e74c3c; font-weight: bold;">→ 1A</div>
+                            <div style="position: absolute; left: 90px; top: 120px; color: #e74c3c; font-weight: bold;">I ↓</div>
+                        </div>
+                        <p>电路示意图：两条流入电流(2A, 3A)，两条流出电流(1A, I)</p>
+                    </div>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q3" value="A">
+                            A. 1A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q3" value="B">
+                            B. 2A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q3" value="C">
+                            C. 3A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q3" value="D">
+                            D. 4A
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 流入节点的电流：2A + 3A = 5A。流出节点的电流：1A + I。根据KCL，流入等于流出，所以 5A = 1A + I，解得 I = 4A。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题4 -->
+            <div class="question" id="q4">
+                <h3>4. 在包含有电容器的电路中，基尔霍夫第一定律（KCL）</h3>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q4" value="A">
+                            A. 完全不适用。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q4" value="B">
+                            B. 仅适用于直流稳态电路。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q4" value="C">
+                            C. 其形式（Σi = 0）仍然适用于电路的任意节点。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q4" value="D">
+                            D. 需要修改为Σi = 常数。
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 基尔霍夫第一定律基于电荷守恒定律，适用于任何集总参数电路，包括含有电容、电感等动态元件的电路，无论处于瞬态还是稳态。其核心形式 Σi = 0 始终成立。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题5 -->
+            <div class="question" id="q5">
+                <h3>5. 如图所示，电流I1=4A，I2= -2A，I3=1A，则电流I4应为多少？</h3>
+                <div class="circuit-diagram">
+                    <div class="diagram">
+                        <div style="position: relative; width: 200px; height: 150px; margin: 0 auto;">
+                            <!-- 节点 -->
+                            <div style="position: absolute; left: 80px; top: 50px; width: 40px; height: 40px; background: #ccc; border-radius: 50%; border: 2px solid #333;"></div>
+                            <!-- 导线和电流 -->
+                            <div style="position: absolute; left: 0; top: 60px; width: 80px; height: 2px; background: #333;"></div>
+                            <div style="position: absolute; left: 120px; top: 60px; width: 80px; height: 2px; background: #333;"></div>
+                            <div style="position: absolute; left: 90px; top: 0; width: 2px; height: 50px; background: #333;"></div>
+                            <div style="position: absolute; left: 90px; top: 90px; width: 2px; height: 60px; background: #333;"></div>
+                            <!-- 电流标签 -->
+                            <div style="position: absolute; left: 30px; top: 45px; color: #e74c3c; font-weight: bold;">I₁=4A →</div>
+                            <div style="position: absolute; left: 140px; top: 45px; color: #e74c3c; font-weight: bold;">→ I₂=-2A</div>
+                            <div style="position: absolute; left: 90px; top: 20px; color: #e74c3c; font-weight: bold;">I₃=1A ↓</div>
+                            <div style="position: absolute; left: 90px; top: 120px; color: #e74c3c; font-weight: bold;">I₄ ↓</div>
+                        </div>
+                        <p>电路示意图：电流I1流入，I2、I3、I4流出（注意：I₂=-2A表示实际方向与图示相反）</p>
+                    </div>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q5" value="A">
+                            A. -1A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q5" value="B">
+                            B. 1A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q5" value="C">
+                            C. 5A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q5" value="D">
+                            D. -5A
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 根据KCL，对于该节点有：I1 = I2 + I3 + I4。代入数值：4 = (-2) + 1 + I4。计算得：4 = -1 + I4，所以 I4 = 5A。注意，I2=-2A表示其实际方向与图示参考方向相反，即实际是流入节点。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题6 -->
+            <div class="question" id="q6">
+                <h3>6. 一个复杂的电路中有5条支路汇于一个节点。如果已知其中4条支路的电流分别为2A, -3A, 5A和-1A，那么第5条支路的电流：</h3>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q6" value="A">
+                            A. 一定为-3A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q6" value="B">
+                            B. 一定为3A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q6" value="C">
+                            C. 可能为-3A，也可能为3A，取决于电路参数。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q6" value="D">
+                            D. 条件不足，无法计算。
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 根据KCL，所有5条支路电流的代数和必须为零。设第5条支路电流为Ix，则有：2 + (-3) + 5 + (-1) + Ix = 0。计算得：(2-3+5-1) + Ix = 3 + Ix = 0，所以 Ix = -3A。结果是确定的。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题7 -->
+            <div class="question" id="q7">
+                <h3>7. 在应用基尔霍夫第一定律列写节点电流方程时，我们规定流入节点的电流为正，流出节点的电流为负。对于某个节点，我们得到方程：2 + (-3) + I = 0。则电流I的大小和方向是？</h3>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q7" value="A">
+                            A. 1A，流入节点
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q7" value="B">
+                            B. 1A，流出节点
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q7" value="C">
+                            C. 5A，流入节点
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q7" value="D">
+                            D. 5A，流出节点
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 解方程：2 - 3 + I = 0 => -1 + I = 0 => I = 1A。因为我们规定"流入为正"，所以结果为正值表示电流I是流入节点的。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题8 -->
+            <div class="question" id="q8">
+                <h3>8. 基尔霍夫第一定律是下列哪个物理原理在电路理论中的体现？</h3>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q8" value="A">
+                            A. 能量守恒定律
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q8" value="B">
+                            B. 电荷守恒定律
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q8" value="C">
+                            C. 欧姆定律
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q8" value="D">
+                            D. 焦耳定律
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 基尔霍夫第一定律的本质是电荷守恒。在节点处，电荷既不能产生也不能消灭，流入的电荷速率必须等于流出的电荷速率，即电流的代数和为零。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题9 -->
+            <div class="question" id="q9">
+                <h3>9. 分析下图所示电路，求电流I。</h3>
+                <div class="circuit-diagram">
+                    <div class="diagram">
+                        <div style="position: relative; width: 200px; height: 150px; margin: 0 auto;">
+                            <!-- 节点 -->
+                            <div style="position: absolute; left: 80px; top: 50px; width: 40px; height: 40px; background: #ccc; border-radius: 50%; border: 2px solid #333;"></div>
+                            <!-- 导线和电流 -->
+                            <div style="position: absolute; left: 0; top: 60px; width: 80px; height: 2px; background: #333;"></div>
+                            <div style="position: absolute; left: 120px; top: 60px; width: 80px; height: 2px; background: #333;"></div>
+                            <div style="position: absolute; left: 90px; top: 0; width: 2px; height: 50px; background: #333;"></div>
+                            <div style="position: absolute; left: 90px; top: 90px; width: 2px; height: 60px; background: #333;"></div>
+                            <!-- 电流标签 -->
+                            <div style="position: absolute; left: 30px; top: 45px; color: #e74c3c; font-weight: bold;">7A →</div>
+                            <div style="position: absolute; left: 90px; top: 20px; color: #e74c3c; font-weight: bold;">I ↓</div>
+                            <div style="position: absolute; left: 140px; top: 45px; color: #e74c3c; font-weight: bold;">→ 4A</div>
+                            <div style="position: absolute; left: 90px; top: 120px; color: #e74c3c; font-weight: bold;">↓ 5A</div>
+                        </div>
+                        <p>电路示意图：两条流入电流(7A, I)，两条流出电流(4A, 5A)</p>
+                    </div>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q9" value="A">
+                            A. 2A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q9" value="B">
+                            B. 9A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q9" value="C">
+                            C. 12A
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q9" value="D">
+                            D. 16A
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 根据KCL，流入节点的电流之和等于流出节点的电流之和。流入：7A + I。流出：4A + 5A = 9A。所以，7 + I = 9，解得 I = 2A。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <!-- 问题10 -->
+            <div class="question" id="q10">
+                <h3>10. 关于基尔霍夫第一定律的适用范围，下列说法最准确的是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q10" value="A">
+                            A. 仅适用于线性电路。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q10" value="B">
+                            B. 仅适用于直流电路。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q10" value="C">
+                            C. 适用于任何集总参数电路，与元件的性质无关。
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label>
+                            <input type="radio" name="q10" value="D">
+                            D. 仅适用于电阻性电路。
+                        </label>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <strong>解析：</strong> 基尔霍夫第一定律是电路理论的一个基本公设，它适用于所有集总参数电路，无论电路是线性的还是非线性的，是直流的还是交流的，元件是何种性质。只要满足集总假设（即电路的尺寸远小于工作波长），KCL就成立。
+                </div>
+                <button type="button" class="show-explanation">查看解析</button>
+            </div>
+            
+            <button type="button" class="submit-btn" id="submit-btn">提交答案</button>
+        </form>
+        
+        <div class="result" id="result">
+            <div class="score" id="score"></div>
+            <button class="reset-btn" id="reset-btn">重新答题</button>
+        </div>
+    </div>
+
+    <script>
+        // 正确答案
+        const correctAnswers = {
+            q1: "B",
+            q2: "A",
+            q3: "D",
+            q4: "C",
+            q5: "C",
+            q6: "A",
+            q7: "A",
+            q8: "B",
+            q9: "A",
+            q10: "C"
+        };
+        
+        // 提交按钮事件
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+            
+            // 检查每个问题的答案
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = 'q' + i;
+                const questionElement = document.getElementById(questionId);
+                const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+                
+                // 重置问题样式
+                questionElement.classList.remove('correct', 'incorrect');
+                
+                if (selectedOption) {
+                    if (selectedOption.value === correctAnswers[questionId]) {
+                        // 答案正确
+                        questionElement.classList.add('correct');
+                        score++;
+                    } else {
+                        // 答案错误
+                        questionElement.classList.add('incorrect');
+                    }
+                } else {
+                    // 未选择答案
+                    questionElement.classList.add('incorrect');
+                }
+            }
+            
+            // 显示结果
+            const resultElement = document.getElementById('result');
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = `得分: ${score}/${totalQuestions}`;
+            resultElement.style.display = 'block';
+            
+            // 滚动到结果区域
+            resultElement.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // 重置按钮事件
+        document.getElementById('reset-btn').addEventListener('click', function() {
+            // 清除所有选择
+            const allInputs = document.querySelectorAll('input[type="radio"]');
+            allInputs.forEach(input => {
+                input.checked = false;
+            });
+            
+            // 移除所有问题样式
+            const allQuestions = document.querySelectorAll('.question');
+            allQuestions.forEach(question => {
+                question.classList.remove('correct', 'incorrect');
+            });
+            
+            // 隐藏结果
+            document.getElementById('result').style.display = 'none';
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // 查看解析按钮事件
+        const explanationButtons = document.querySelectorAll('.show-explanation');
+        explanationButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const explanation = this.previousElementSibling;
+                if (explanation.style.display === 'block') {
+                    explanation.style.display = 'none';
+                    this.textContent = '查看解析';
+                } else {
+                    explanation.style.display = 'block';
+                    this.textContent = '隐藏解析';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
